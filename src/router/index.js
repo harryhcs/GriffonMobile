@@ -1,14 +1,9 @@
 import React from 'react';
 import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
-// import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-// import {Alert} from 'react-native';
 import {useSelector} from 'react-redux';
 import {ApolloClient} from 'apollo-client';
-// import {createHttpLink} from 'apollo-link-http';
-// import {setContext} from 'apollo-link-context';
-// import {onError} from 'apollo-link-error';
-// import promiseToObservable from '../auth/promiseToObservable';
+
 import {InMemoryCache} from 'apollo-cache-inmemory';
 import {ApolloProvider} from '@apollo/react-hooks';
 import {WebSocketLink} from 'apollo-link-ws';
@@ -18,11 +13,37 @@ import AuthScreen from '../screens/authenticate';
 import HomeScreen from '../screens/app/home';
 
 // import Loading from '../components/Loading';
+import Geolocation from '@react-native-community/geolocation';
+
+import {Alert} from 'react-native';
+
+import {useMutation} from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
 const Stack = createStackNavigator();
 const HomeStack = createStackNavigator();
 
+const UPDATE_POSITION = gql`
+  mutation updateLocation($lat: numeric!, $lon: numeric!) {
+    insert_locations(objects: {latitude: $lat, longitude: $lon}) {
+      affected_rows
+    }
+  }
+`;
+
 function HomeStackScreen() {
+  const [updateLocation, {loading, error}] = useMutation(UPDATE_POSITION);
+  // Geolocation.getCurrentPosition((info) => {
+  //   updateLocation({
+  //     variables: {
+  //       lat: info.coords.latitude,
+  //       lon: info.coords.longitude,
+  //     },
+  //   });
+  // });
+  if (error) {
+    console.log(error);
+  }
   return (
     <HomeStack.Navigator
       screenOptions={({route, navigation}) => ({
