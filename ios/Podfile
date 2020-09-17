@@ -11,6 +11,8 @@ target 'GriffonMobile' do
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
+  pod 'react-native-background-timer', :path => '../node_modules/react-native-background-timer'
+
   target 'GriffonMobileTests' do
     inherit! :complete
     # Pods for testing
