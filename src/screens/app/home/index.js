@@ -7,7 +7,7 @@ const Home = () => {
   useEffect(() => {
     BackgroundTimer.runBackgroundTimer(() => {
       updateBattery();
-    }, 3000);
+    }, 5000);
     return () => BackgroundTimer.stopBackgroundTimer();
   });
 
